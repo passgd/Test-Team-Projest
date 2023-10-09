@@ -21,4 +21,5 @@ public interface CommentDAO {
 	  //4. 댓글 삭제하기
 	  public boolean commentDelete(CommentDTO comment) throws Exception;
 
+	  // 주석테스트	  
 }
