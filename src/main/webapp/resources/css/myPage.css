@@ -1,0 +1,50 @@
+
+
+#text {
+  margin-top: 100px;
+  text-align: center;
+}
+
+/* 
+#myPage {
+  text-align: center;
+} */
+
+h4 {
+	text-align: center;
+}
+
+.dmypage1 {
+  display: inline-block;
+  margin: 2px;
+  width : 250px;
+  height : 50px;
+  background-color:#ffb858;
+	color : white;
+  border : 2px solid #e78f18;
+  border-radius: 5px;
+  margin-top : 20px;
+  margin-bottom : 100px;
+  	font-size : 17px;
+	font-weight: 700;
+  
+}
+
+#mypage_id, #mypage_uname, #mypage_phone, #mypage_birth, #mypage_gender, #mypage_email {
+	/* color : #868686; */
+	width : 300px;
+	font-size : 18px;
+	text-aligin : left;
+}
+
+
+h3 {
+	text-aligin : center;
+}
+
+.infobox {
+	display: inline-block;
+	text-aligin : left;
+	width : 150px;
+	height : 50px;
+}

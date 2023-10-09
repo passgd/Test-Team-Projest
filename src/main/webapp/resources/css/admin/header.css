@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;      /* 마진값 초기화 */
+  padding: 0;     /* 패딩값 초기화 */
+  box-sizing: border-box; /* 박스 영역은 테두리까지 지정 */
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* 전체 화면 */
+#container {
+  margin: 0 auto;     /* 화면 중앙에 배치 */
+  width : 1200px;     /* 너비 지정 */
+
+}
+
+/* 헤더 영역 */
+header {
+  width : 100%;               /* 너비 */
+  height : 100px;             /* 높이 */
+  background-color:#ffb858;   /* 배경 */
+}
+
+/* 로고영역 */
+#logo {
+  float: left;        /* 왼쪽으로 플로팅 */
+  width: 250px;       /* 너비 */
+  height: 100px;      /* 높이 */
+  line-height: 100px; /* height 값과 같게 만들어서 세로로 중간에 오도록 맞춤 */
+  padding-left: 20px; /* 왼쪽에 패딩 지정 */
+}
+
+#logo h1 {
+  font-family: 'Bagel Fat One', cursive;
+  font-weight: 700;
+  font-size: 32px;
+  color : #fff;
+  text-shadow: 0 4px 0 #f00;
+}
+
+/* 내비게이션 영역 */
+nav {
+  float : right;      /* 오른쪽 플로팅 */
+  width : 900px;      /* 너비 */
+  height : 100px;     /* 메뉴 영역 */
+  padding-top : 40px; /* 메뉴를 아래로 내리기 위해 */
+}
+
+#topMenu {
+  height: 60px;
+}
+
+#topMenu > li {
+  float: left;        /* 메뉴 항목을 왼쪽으로 세팅 */
+  position:relative;  /* 서브메뉴를 absolute로 만들기 위해 부모 요소를 relative로 지정 */
+}
+
+#topMenu > li > a {
+  display: block;
+  color : #fff;
+  font-weight: 600;
+  text-shadow: 0 1.5px #f00;
+  padding: 10px 35px;
+}
+
+#topMenu > li > a > span {
+  font-size: 0.5em;
+}
+
+#topMenu >li > a:hover {
+  color : #000;
+  text-shadow: 0 -1 #f00;
+}
+
+#topMenu >li > a:hover {
+  color: red;
+}
+
+#topMenu > li > ul {
+  display: none;
+  position: absolute;
+  width: 160px;
+  background-color: rgba(255, 255, 255, 0.6);   /* 배경 투명색 지정 */
+  left : 20px;
+}
+
+#topMenu >li >ul >li {
+  padding : 10px 10px 10px 30px;    /* 서브 메뉴 항목 지정 */
+}
+
+#topMenu > li > ul > li > a {
+  font-size: 12px;
+  padding: 10px;
+  color: #000;
+}
+
+#topMenu > li:hover > ul {
+  display: block;           /* 메인 메뉴 항목 위로 오버하면 서브메뉴 표시 */
+  z-index: 10;              /* 슬라이드 쇼에 가리지 않게 조절 */
+}
+
+#topMenu > li > ul > li > a:hover {
+  color : #f00;     /* 서브메뉴 마유스 오버하면 색상 바꾸기 */
+}

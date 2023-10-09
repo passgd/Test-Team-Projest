@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.notice">
+	
+	<sql id="allSelect"> 
+		SELECT * FROM NOTICE 
+	</sql>
+	
+	<sql id="pagingBefore"> 
+			SELECT  O.* FROM (
+				SELECT rownum nrow, b.* FROM (
+	</sql>				
+
+	<sql id="pagingAfter"> 
+				) b 
+				WHERE rownum &lt;= #{navEnd}
+			) O
+			WHERE nrow BETWEEN #{navStart} AND #{navEnd}
+	</sql>	
+	
+	
+	<!-- 공지사항 목록 -->
+	<select id="noticeList" resultType="NoticeDTO">
+		select 
+			 noticeid
+			,title
+			,writer_uid
+			,reg_date
+			,view_count
+			,fixed_yn
+		from notice
+		order by fixed_yn DESC
+				, CASE WHEN fixed_yn = 'y' THEN reg_date END DESC
+				, reg_date DESC
+	</select>
+	
+	
+	
+	<!-- 공지사항 상세 -->
+	<select id="noticeGet" resultType="NoticeDTO">
+		SELECT * FROM NOTICE
+		WHERE noticeid = #{noticeid}
+	</select>
+	
+	
+	<!-- 공지사항 글쓰기 -->
+	<insert id="noticeInsert" >
+				<selectKey keyProperty="noticeid" resultType="int"  order="BEFORE">
+			SELECT 
+				seq_notice.nextval noticeid 
+			from dual
+		</selectKey>
+		INSERT INTO notice (
+			  pid
+			, noticeid
+			, title
+			, contents
+			, writer_uid
+			, reg_date
+		) VALUES (
+			  0
+			, #{noticeid}
+			, #{title}
+			, #{contents}
+			, #{writer_uid}
+			, sysdate
+		)
+	</insert>
+	
+	
+	<!-- 공지사항 답글 -->
+	<insert id="insertnoticeReply" >
+		<selectKey keyProperty="noticeid" resultType="int"  order="BEFORE">
+			select 
+				seq_notice.nextval noticeid 
+			from dual
+		</selectKey>
+		INSERT INTO bcomment (
+			  pid
+			, noticeid
+			, title
+			, contents
+			, writer_uid
+			, reg_date
+		) VALUES (
+		      #{pid} 
+			, #{noticeid}
+			, #{title}
+			, #{contents}
+			, #{writer_uid}
+			, sysdate
+		)
+	</insert>
+
+
+	<!-- 공지사항 수정 -->	
+	<update id="noticeUpdate">
+		UPDATE notice set 
+			  title = #{title}
+			, contents = #{contents} 
+			, fixed_yn = #{fixed_yn}
+		WHERE noticeid = #{noticeid}
+	</update>
+	
+	
+	<!-- 공지사항 삭제 -->	
+	<delete id="noticeDelete" >
+		DELETE FROM notice 
+		WHERE noticeid = #{noticeid}
+	</delete>
+	
+	
+	<!-- 메인페이지 TOP5 뽑기 -->
+	<select id="noticeTop5" resultType="NoticeDTO" >
+		<![CDATA[
+			SELECT 
+				rownum, sub.*  
+			FROM (
+				SELECT 
+					* 
+				FROM notice 
+				order by notice.noticeid desc
+			) sub 
+			where rownum <=5
+		]]>
+	</select>
+	
+	
+	<!-- 조회수 증가 -->
+	<update id="viewCount">
+		update notice set 
+			view_count = view_count + 1 
+		where noticeId = #{noticeId}
+	</update>
+	
+	
+	<!-- 체크박스 선택 삭제 -->	
+	<delete id="noticesDelete">
+		delete from notice 
+		where noticeid in
+		<foreach item="noticeid" collection="list"  open="("  separator="," close=")"> 
+			#{noticeid}		
+		</foreach> 
+	</delete>
+	
+	
+	<!-- 페이징 -->
+	<!-- 공지사항 글 총 개수 반환 -->
+	<select id="getTotalCount" resultType="int" >
+		select count(*) from notice
+		
+		 <if test="searchTitle != null and searchTitle != ''">
+			where title like concat(concat('%', #{searchTitle}), '%')
+		</if>
+		
+	</select>
+
+
+	 
+	<!-- 공지사항 페이징 -->
+	<select id="noticePagingList" resultType="NoticeDTO">
+	    SELECT b.*
+	    FROM (
+	        SELECT rownum AS nrow, a.*
+	        FROM (
+	            SELECT *
+	            FROM notice
+	             <if test="searchTitle != null and searchTitle != ''">
+					where title like concat(concat('%', #{searchTitle}), '%')
+	             </if>
+	             order by fixed_yn DESC
+				, CASE WHEN fixed_yn = 'y' THEN reg_date END DESC
+				, reg_date DESC
+	        ) a
+	        WHERE rownum &lt;= #{endNo}
+	    ) b
+	    WHERE nrow BETWEEN #{startNo} AND #{endNo}
+	</select>
+
+
+</mapper>
