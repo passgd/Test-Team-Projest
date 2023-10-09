@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+
+	<select id="boardList" resultType="BoardDTO">
+		select 
+			boardid
+			, title
+			, writer_uid
+			, reg_date
+			, view_count 
+		from board 
+		order by boardid desc
+	</select>
+	
+	<select id="boardGet" resultType="BoardDTO" >
+		select 
+			  boardid
+			, title
+			, contents
+			, writer_uid
+			, reg_date
+			, view_count 
+		from board 
+		where boardid = #{boardid}
+	</select>
+	
+	
+	<select id="boardId" resultType="BoardDTO" >
+		select 
+			boardid
+		from board 
+		order by boardid desc
+	</select>
+	
+	
+	<insert id="boardInsert" >
+		<selectKey keyProperty="boardid" resultType="int"  order="BEFORE">
+			select 
+				seq_board.nextval boardid 
+			from dual
+		</selectKey>
+		INSERT INTO board (
+			  pid
+			, boardid
+			, title
+			, contents
+			, writer_uid
+			, reg_date
+		) VALUES (
+			  0
+			, #{boardid}
+			, #{title}
+			, #{contents}
+			, #{writer_uid}
+			, sysdate
+		)
+	</insert>
+	
+	<insert id="insertBoardReply" >
+		<selectKey keyProperty="boardid" resultType="int"  order="BEFORE">
+			select 
+				seq_board.nextval boardid 
+			from dual
+		</selectKey>
+		INSERT INTO board (
+			  pid
+			, boardid
+			, title
+			, contents
+			, writer_uid
+			, reg_date
+		) VALUES (
+		      #{pid} 
+			, #{boardid}
+			, #{title}
+			, #{contents}
+			, #{writer_uid}
+			, sysdate
+		)
+	</insert>
+	
+	<update id="boardUpdate">
+		update board set 
+			  title=#{title}
+			, contents=#{contents} 
+		where boardid=#{boardid}
+	</update>
+	
+	<delete id="boardDelete">
+		delete from board 
+		where boardid=#{boardid}
+	</delete>
+	
+	<select id="boardTop5" resultType="BoardDTO">
+		<![CDATA[
+			SELECT 
+				rownum, sub.*  
+			FROM (
+				SELECT 
+					* 
+				FROM board 
+				order by board.boardid desc
+			) sub 
+			where rownum <=5
+		]]>
+	</select>
+	
+	<update id="viewCount">
+		update board set 
+			view_count = view_count + 1 
+		where boardId = #{boardId}
+	</update>
+	
+	<delete id="boardsDelete" >
+		delete from board 
+		where boardid in
+		<foreach item="boardid" collection="list"  open="("  separator="," close=")"> 
+			#{boardid}		
+		</foreach> 
+	</delete>
+	
+		<!-- 게시판 페이징 -->
+	<select id="boardPagingList" resultType="boardDTO">
+	    SELECT b.*
+	    FROM (
+	        SELECT rownum AS nrow, a.*
+	        FROM (
+	             select 
+					level, pid, boardid, title, writer_uid, reg_date, view_count
+				 from board 
+				 where delete_yn = 'N' 
+				 <if test="boardid != 0">
+					<![CDATA[
+					and boardid > #{boardid}
+					]]>
+				 </if>
+	             <if test="searchTitle != null and searchTitle != ''">
+					and title like concat(concat('%', #{searchTitle}), '%')
+	             </if>
+	             start with pid=0
+				 CONNECT BY PRIOR boardid = pid
+				 order SIBLINGS by boardid desc  
+	        ) a
+	        WHERE rownum &lt;= #{endNo}
+	    ) b
+	    WHERE nrow BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	
+	
+	<select id="boardListBoforeN">
+		 select * from (
+		     select * from board
+			 <![CDATA[
+		     where boardid < #{boardid} 
+			 ]]>
+		     order by boardid desc
+		 ) A
+		 <![CDATA[
+		 where rownum <= N		
+		 ]]>
+	</select>
+	
+	
+	<!-- 페이징 -->
+	<!-- 공지사항 글 총 개수 반환 -->
+	<select id="getTotalCount" resultType="int" >
+		select count(*) from board
+		
+		 <if test="searchTitle != null and searchTitle != ''">
+			where title like concat(concat('%', #{searchTitle}), '%')
+		</if>
+		
+	</select>
+
+
+	 
+	
+</mapper>

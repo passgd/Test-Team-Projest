@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	
+	<!-- 회원가입 -->
+	<insert id="memberInsert" >
+		INSERT INTO MEMBER (
+			  id
+			, pwd
+			, uname
+			, birth
+			, gender
+			, phone
+			, email
+		) VALUES (
+			  #{id}
+			, #{pwd}
+			, #{uname}
+			, #{birth}
+			, #{gender}
+			, #{phone}
+			, #{email}
+		)
+	</insert>
+
+
+	<!-- 아이디 중복검사 -->
+	<select id="isExistUid" resultType="MemberDTO" >
+		SELECT * FROM MEMBER
+		WHERE id = #{id}
+	</select>
+	
+	
+	<!-- 로그인 -->
+	<select id="memberLogin" resultType="MemberDTO">
+		SELECT * FROM MEMBER
+		WHERE id = #{id}
+			AND
+			  pwd = #{pwd}
+	</select>
+	
+	
+	<!-- 회원 전체조회 -->
+	<select id="memberList" resultType="MemberDTO" >
+		SELECT * FROM MEMBER
+	</select>
+	
+	
+	<!-- 회원 상세조회 -->
+	<select id="memberGet" resultType="MemberDTO" >
+		SELECT * FROM MEMBER
+		WHERE id = #{id}
+	</select>
+
+
+	<!-- 회원 수정 -->	
+	<update id="memberUpdate">
+		UPDATE MEMBER
+			SET
+				 pwd = #{pwd}
+			   , uname = #{uname}
+			   , birth = #{birth}
+			   , gender = #{gender}
+			   , phone = #{phone}
+			   , email = #{email}
+			WHERE
+				 id = #{id}
+			   
+	</update>
+	
+	
+	<!-- 회원 탈퇴 -->	
+	<delete id="memberDelete">
+		DELETE FROM MEMBER 
+		WHERE id = #{id}
+			AND
+			  pwd = #{pwd}
+	</delete>
+	
+	
+	<!-- 아이디 찾기 -->
+	<select id="memberFindId" resultType="MemberDTO" >
+		SELECT id FROM MEMBER
+		WHERE uname = #{uname}
+			AND
+			  phone = #{phone}
+	</select>
+	
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="memberFindPwd" resultType="MemberDTO" >
+		SELECT pwd FROM MEMBER
+		WHERE id = #{id}
+			AND
+	  		  uname = #{uname}
+	</select>
+	
+
+</mapper>

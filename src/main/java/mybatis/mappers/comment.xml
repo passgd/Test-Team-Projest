@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.comment">
+   
+   	 <!--  댓글 작성하기  -->
+     <insert id="commentInsert">
+     
+        <selectKey keyProperty="commentid" resultType="int" order="BEFORE">
+         SELECT 
+            seq_comment.nextval commentid
+         from dual
+      	</selectKey>
+      
+	        insert into 
+	        bcomment(
+	             commentid
+	            ,boardid
+	            ,writer_uid
+	            ,contents
+	           ) 
+	        values
+	           (
+	             #{commentid}
+	            ,#{boardid}
+	            ,#{writer_uid}
+	            ,#{contents}
+	           )
+     
+     </insert>
+     
+     
+    <!--  댓글 목록 -->
+    <select id="commentList" resultType="CommentDTO">
+     	select 
+			*
+		from bcomment
+		where boardid = #{boardid}
+		order by reg_date DESC
+    </select>
+    
+		 
+    <select id="commentListBoforeN" resultType="CommentDTO">
+		 select * from (
+		     select * from bcomment
+		     where boardid = #{boardid} 
+		     order by commentid desc
+		 ) A
+		 <![CDATA[
+		 where rownum <= 5	
+		 ]]>
+	</select>
+   
+   
+   <!--  댓글 수정하기 -->   
+   <update id="commentUpdate">
+      UPDATE 
+         bcomment 
+      set 
+           contents = #{contents}
+
+      WHERE writer_uid = #{writer_uid}
+         AND
+           commentid = #{commentid}
+   </update>
+   
+     
+   <!-- 댓글 삭제하기 -->   
+<!--    <update id="commentDelete" >
+      UPDATE
+       bcomment
+      SET
+       delete_yn = 'Y'
+      WHERE writer_uid = #{writer_uid}
+         AND
+           commentid = #{commentid}
+   </update> -->
+   
+   <delete id="commentDelete" >
+      DELETE FROM
+       bcomment
+      WHERE writer_uid = #{writer_uid}
+         AND
+           commentid = #{commentid}
+   </delete>
+     
+
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value=""/>
+		
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+		
+	</definition>
+	
+	<definition name="home" extends="baseLayout">
+		<put-attribute name="title" value="메인 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/home.jsp"/>
+	</definition>
+
+	<definition name="main" extends="baseLayout">
+		<put-attribute name="title" value="메인 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/main.jsp"/>
+	</definition>		
+
+	
+	<!-- 공지사항 -->
+	
+<!-- 	<definition name="notice/list" extends="baseLayout">
+		<put-attribute name="title" value="공지사항 목록"/>
+		<put-attribute name="body" value="/WEB-INF/views/notice/list.jsp"/>
+	</definition>		
+ -->
+	<definition name="notice/list2" extends="baseLayout">
+		<put-attribute name="title" value="공지사항 목록(페이징)"/>
+		<put-attribute name="body" value="/WEB-INF/views/notice/list2.jsp"/>
+	</definition>	
+	
+	<!-- 회원 게시판 -->
+	
+<!-- 	<definition name="board/list" extends="baseLayout">
+		<put-attribute name="title" value="게시판 목록"/>
+		<put-attribute name="body" value="/WEB-INF/views/board/list.jsp"/>
+	</definition>		 -->
+	
+	<definition name="board/list2" extends="baseLayout">
+		<put-attribute name="title" value="게시판 목록(페이징)"/>
+		<put-attribute name="body" value="/WEB-INF/views/board/list2.jsp"/>
+	</definition>
+	
+	
+	<!-- 관리자 게시판 -->
+	
+	
+	<definition name="admin/main" extends="baseLayout">
+		<put-attribute name="title" value="관리자 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/main.jsp"/>
+	</definition>	
+	
+	<!-- 공지사항 -->
+	<definition name="admin/notice/list2" extends="baseLayout">
+		<put-attribute name="title" value="관리자 공지사항 목록(페이징)"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/notice/list2.jsp"/>
+	</definition>	
+	
+	<!-- 회원게시판 -->
+	<definition name="admin/board/list2" extends="baseLayout">
+		<put-attribute name="title" value="회원게시판 목록(페이징)"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/list2.jsp"/>
+	</definition>
+	
+	<!-- 회원게시판-상세 -->
+<!--  	<definition name="admin/member/list" extends="baseLayout">
+		<put-attribute name="title" value="회원관리 게시판 목록(페이징)"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/member/list.jsp"/>
+	</definition> -->
+	
+	
+	
+	<definition name="board/detail" extends="baseLayout">
+		<put-attribute name="title" value="게시판 상세"/>
+		<put-attribute name="body" value="/WEB-INF/views/board/detail.jsp"/>
+	</definition>
+			
+	<definition name="board/reply" extends="baseLayout">
+		<put-attribute name="title" value="게시판 답글"/>
+		<put-attribute name="body" value="/WEB-INF/views/board/reply.jsp"/>
+	</definition>		
+	
+</tiles-definitions>

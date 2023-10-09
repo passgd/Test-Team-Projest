@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+
+/* ----------------------------------- */
+
+#text {
+  margin-top: 100px;
+  text-align: center;
+  font-size: 800;
+}
+
+#loginForm {
+  /* display : flex; */
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  width: 100%; 
+  height: 300px;
+  /* background-color: aqua; */
+}
+
+#id1, #pwd1  {
+  text-align: center;
+}
+
+#login_id, #login_pwd {
+  width: 350px;
+  height: 45px;
+  border-radius: 5px;
+  border : 2px solid rgb(227, 227, 227);
+}
+
+#pwd2 {
+  width: 350px;
+  height: 45px;
+  /* background-color: rgb(255, 209, 196); */
+  border-radius: 5px;
+  border : 2px solid rgb(227, 227, 227);
+}
+
+#loginButton1 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#loginButton2 {
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 45px;
+  border : 2px solid #e78f18;
+  border-radius: 5px;
+  background-color:#ffb858;
+  color: #fff;
+  font-size: large;
+  font-weight: 700;
+}
+
+#forward {
+  margin-top: 15px;
+  list-style: none;
+  text-decoration: none;
+  color: #aaa;
+  text-align: center;
+}
+
+ a {
+  color: #aaa;
+}
+
+h5 {
+
+  text-align: center;
+
+}
